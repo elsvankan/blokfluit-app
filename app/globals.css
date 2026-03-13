@@ -1,0 +1,15 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+}
+
+body {
+  @apply bg-skysoft text-ink antialiased;
+}
+
+button {
+  @apply transition active:scale-[0.99];
+}
