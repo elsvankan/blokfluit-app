@@ -1,7 +1,7 @@
 'use client';
 
 import { useMemo, useState } from 'react';
-import { NOTES } from '@/data/notes';
+import { NOTES, NoteId } from '@/data/notes';
 import { generatePattern } from '@/lib/patterns';
 import { useAppState } from '@/lib/use-app-state';
 import { calculateStreak } from '@/lib/streak';
@@ -16,7 +16,7 @@ export default function DailyPracticeFlow() {
   const [doneMessage, setDoneMessage] = useState('');
 
   const difficultMap = useMemo(
-    () => Object.fromEntries(Object.entries(state.noteStats).map(([k, v]) => [k, v.difficult + 1])),
+    () => Object.fromEntries(Object.entries(state.noteStats).map(([k, v]) => [k, v.difficult + 1])) as Record<NoteId, number>,
     [state.noteStats]
   );
 
@@ -27,7 +27,7 @@ export default function DailyPracticeFlow() {
   const finish = () => {
     setState((prev) => {
       const streakInfo = calculateStreak(prev.lastPracticedDate, prev.streak, prev.totalPracticeDays, prev.longestStreak);
-      let next = {
+      let next: typeof prev = {
         ...prev,
         stars: prev.stars + (streakInfo.gainedStar ? 1 : 0),
         streak: streakInfo.streak,

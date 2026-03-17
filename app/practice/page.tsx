@@ -4,12 +4,13 @@ import { useMemo, useState } from 'react';
 import PatternDisplay from '@/components/PatternDisplay';
 import { generatePattern } from '@/lib/patterns';
 import { useAppState } from '@/lib/use-app-state';
+import { NoteId } from '@/data/notes';
 
 export default function PracticePage() {
   const { state, setState } = useAppState();
   const [length, setLength] = useState(3);
   const difficultMap = useMemo(
-    () => Object.fromEntries(Object.entries(state.noteStats).map(([k, v]) => [k, v.difficult + 1])),
+    () => Object.fromEntries(Object.entries(state.noteStats).map(([k, v]) => [k, v.difficult + 1])) as Record<NoteId, number>,
     [state.noteStats]
   );
   const [pattern, setPattern] = useState(generatePattern(state.activeNotes, length, difficultMap));
